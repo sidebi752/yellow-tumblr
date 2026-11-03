@@ -1,0 +1,51 @@
+# 07-git-check  (2026-11-04 00:45:22)
+
+$ git --version
+git version 2.56.0.windows.4
+
+$ git config --list | grep -v -i -E 'token|password|credential|secret'
+diff.astextplain.textconv=astextplain
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+http.sslbackend=schannel
+core.autocrlf=true
+core.fscache=true
+core.symlinks=false
+pull.rebase=false
+init.defaultbranch=master
+core.repositoryformatversion=0
+core.filemode=false
+core.bare=false
+core.logallrefupdates=true
+core.symlinks=false
+core.ignorecase=true
+remote.origin.url=https://github.com/sidebi752/yellow-tumblr.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+user.name=sidebi752
+user.email=sidebi752@gmail.com
+
+$ git branch --show-current
+main
+
+$ git remote -v | sed -E 's#(https://)[^@/]+@#\1***@#'
+origin	https://github.com/sidebi752/yellow-tumblr.git (fetch)
+origin	https://github.com/sidebi752/yellow-tumblr.git (push)
+
+$ git status -sb
+## No commits yet on main
+?? .gitignore
+?? Dockerfile
+?? README.md
+?? app/
+?? bind-demo/
+?? docs/
+?? logs/
+?? scripts/
+
+$ git log --oneline -n 5
+fatal: your current branch 'main' does not have any commits yet
+(종료 코드: 128)
+
+=> 로그 저장 위치: logs/07-git-check.log

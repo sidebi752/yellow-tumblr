@@ -1,0 +1,63 @@
+# 02-permissions  (2026-11-03 23:18:38)
+### 실습 환경: ubuntu 컨테이너 (컨테이너 안은 진짜 리눅스 파일 시스템)
+
+$ docker run --rm ubuntu bash -c 'uname -a && id'
+Linux 2efc1d8bc1d0 6.18.54.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Tue Oct  6 19:13:07 UTC 2026 x86_64 GNU/Linux
+uid=0(root) gid=0(root) groups=0(root)
+
+### 0. 작업 폴더 준비
+
+$ mkdir -p /tmp/perm/secret-dir
+
+$ cd /tmp/perm
+
+$ printf '#!/usr/bin/env bash\necho script is running\n' > hello.sh
+
+### 1. 파일 권한: 변경 전 (기본 644 = rw-r--r--)
+
+$ ls -l hello.sh
+-rw-r--r-- 1 root root 43 Nov  3 14:18 hello.sh
+
+### 2. 실행 권한(x)이 없으면 실행이 막힌다
+
+$ ./hello.sh
+bash: line 1: ./hello.sh: Permission denied
+
+### 3. chmod 755 로 변경 → 실행 가능
+
+$ chmod 755 hello.sh
+
+$ ls -l hello.sh
+-rwxr-xr-x 1 root root 43 Nov  3 14:18 hello.sh
+
+$ ./hello.sh
+script is running
+
+### 4. 기호 방식으로도 변경해 보기 (u=소유자, g=그룹, o=그 외)
+
+$ chmod go-rx hello.sh
+
+$ ls -l hello.sh
+-rwx------ 1 root root 43 Nov  3 14:18 hello.sh
+
+$ chmod 644 hello.sh
+
+$ ls -l hello.sh
+-rw-r--r-- 1 root root 43 Nov  3 14:18 hello.sh
+
+### 5. 디렉토리 권한: 변경 전 / 후
+
+$ ls -ld secret-dir
+drwxr-xr-x 2 root root 4096 Nov  3 14:18 secret-dir
+
+$ chmod 700 secret-dir
+
+$ ls -ld secret-dir
+drwx------ 2 root root 4096 Nov  3 14:18 secret-dir
+
+$ chmod 755 secret-dir
+
+$ ls -ld secret-dir
+drwxr-xr-x 2 root root 4096 Nov  3 14:18 secret-dir
+
+=> 로그 저장 위치: logs/02-permissions.log

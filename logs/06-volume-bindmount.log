@@ -1,0 +1,103 @@
+# 06-volume-bindmount  (2026-11-03 22:28:14)
+
+$ docker rm -f vol-test vol-test2 bind-test 2>/dev/null
+
+$ docker volume rm mydata 2>/dev/null
+(종료 코드: 1)
+
+################ A. Docker 볼륨 영속성 ################
+### 1. 볼륨 생성 → 컨테이너에 연결 → 데이터 쓰기
+
+$ docker volume create mydata
+mydata
+
+$ docker run -d --name vol-test -v mydata:/data ubuntu sleep infinity
+e8b5848c1f45ae9d10830732d6b8c37a49ae9d27690b4e808d6f7c9076d0c112
+
+$ docker exec vol-test bash -c 'echo hi-volume > /data/hello.txt && cat /data/hello.txt'
+hi-volume
+
+### 2. 컨테이너 삭제 (삭제 전/후 비교)
+
+$ docker ps -a --filter name=vol-test
+CONTAINER ID   IMAGE     COMMAND            CREATED         STATUS        PORTS     NAMES
+e8b5848c1f45   ubuntu    "sleep infinity"   2 seconds ago   Up 1 second             vol-test
+
+$ docker rm -f vol-test
+vol-test
+
+$ docker ps -a --filter name=vol-test
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+### 3. 새 컨테이너에 같은 볼륨 연결 → 데이터가 남아있는지 확인
+
+$ docker run -d --name vol-test2 -v mydata:/data ubuntu sleep infinity
+f93fc64475965719dcee891dbaf07c0f633bff7d3c8c2f7633a9e361cf179ded
+
+$ docker exec vol-test2 cat /data/hello.txt
+hi-volume
+
+$ docker volume ls
+DRIVER    VOLUME NAME
+local     andalog_andalog-data
+local     mydata
+
+$ docker volume inspect mydata
+[
+    {
+        "CreatedAt": "2026-11-03T13:28:15Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/mydata/_data",
+        "Name": "mydata",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+
+### 4. (참고) 볼륨 백업: 볼륨 내용을 tar 파일로 꺼내기
+
+$ mkdir -p backup-demo
+
+$ docker run --rm -v mydata:/data -v "/c/Users/MKJ/Desktop/codyssey-entry-1/backup-demo":/backup ubuntu tar czf /backup/mydata.tgz -C /data .
+
+$ ls -l backup-demo
+total 1
+-rw-r--r-- 1 MKJ 197121 158 Nov  3 22:28 mydata.tgz
+
+################ B. 바인드 마운트 반영 ################
+
+$ mkdir -p "/c/Users/MKJ/Desktop/codyssey-entry-1/bind-demo"
+
+$ echo '<h1>BEFORE (host file)</h1>' > "/c/Users/MKJ/Desktop/codyssey-entry-1/bind-demo/index.html"
+
+$ docker run -d --name bind-test -p 8082:80 -v "/c/Users/MKJ/Desktop/codyssey-entry-1/bind-demo":/usr/share/nginx/html:ro nginx:alpine
+Unable to find image 'nginx:alpine' locally
+alpine: Pulling from library/nginx
+Digest: sha256:785835ea65db4bba6f021acc0f3be91b0fef76a53fe41f8588c6698d2aed0606
+Status: Downloaded newer image for nginx:alpine
+36064efb0646c5ea13ba0ed14bf1a5c423731c415f8f0900cde782036181cb0d
+
+$ sleep 2
+
+### 변경 전
+
+$ cat "/c/Users/MKJ/Desktop/codyssey-entry-1/bind-demo/index.html"
+<h1>BEFORE (host file)</h1>
+
+$ curl -s http://localhost:8082
+<h1>BEFORE (host file)</h1>
+
+### 호스트에서 파일만 수정 (컨테이너 재시작/재빌드 없음)
+
+$ echo '<h1>AFTER (host file changed)</h1>' > "/c/Users/MKJ/Desktop/codyssey-entry-1/bind-demo/index.html"
+
+### 변경 후
+
+$ cat "/c/Users/MKJ/Desktop/codyssey-entry-1/bind-demo/index.html"
+<h1>AFTER (host file changed)</h1>
+
+$ curl -s http://localhost:8082
+<h1>AFTER (host file changed)</h1>
+
+=> 로그 저장 위치: logs/06-volume-bindmount.log
