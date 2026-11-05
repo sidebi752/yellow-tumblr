@@ -1,4 +1,4 @@
-# 00-env  (2026-11-03 22:25:59)
+# 00-env  (2026-11-05 14:25:48)
 
 $ uname -a
 MINGW64_NT-10.0-19045 DESKTOP-1T273GH 3.6.10-5a1665c8.x86_64 2026-09-28 10:40 UTC x86_64 Msys
@@ -16,6 +16,6 @@ $ git --version
 git version 2.56.0.windows.4
 
 $ code --version | head -n 1
-1.134.0
+1.144.1
 
 => 로그 저장 위치: logs/00-env.log

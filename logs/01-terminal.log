@@ -1,36 +1,36 @@
 # 01-terminal  (2026-11-03 22:26:04)
 ### 0. 실습 폴더 초기화 (매번 같은 결과가 나오도록)
 
-$ rm -rf "/c/Users/MKJ/codyssey-practice"
+$ rm -rf "/c/Users/***/codyssey-practice"
 
 ### 1. 현재 위치 확인 / 목록 확인(숨김 파일 포함)
 
 $ pwd
-/c/Users/MKJ/Desktop/codyssey-entry-1/scripts
+/c/Users/***/Desktop/codyssey-entry-1/scripts
 
 $ ls -la
 total 39
-drwxr-xr-x 1 MKJ 197121    0 Nov  1 22:34 ./
-drwxr-xr-x 1 MKJ 197121    0 Nov  3 22:12 ../
--rwxr-xr-x 1 MKJ 197121  295 Nov  1 22:34 00-env.sh*
--rwxr-xr-x 1 MKJ 197121 1331 Nov  1 22:34 01-terminal.sh*
--rwxr-xr-x 1 MKJ 197121 1012 Nov  1 22:34 02-permissions.sh*
--rwxr-xr-x 1 MKJ 197121  564 Nov  1 22:34 03-docker-check.sh*
--rwxr-xr-x 1 MKJ 197121 1233 Nov  1 22:34 04-container-ops.sh*
--rwxr-xr-x 1 MKJ 197121 1931 Nov  1 22:34 05-web-build-run.sh*
--rwxr-xr-x 1 MKJ 197121 2042 Nov  1 22:34 06-volume-bindmount.sh*
--rwxr-xr-x 1 MKJ 197121  671 Nov  1 22:34 07-git-check.sh*
--rwxr-xr-x 1 MKJ 197121  363 Nov  1 22:34 99-cleanup.sh*
--rwxr-xr-x 1 MKJ 197121 1022 Nov  1 22:34 lib.sh*
+drwxr-xr-x 1 *** 197121    0 Nov  1 22:34 ./
+drwxr-xr-x 1 *** 197121    0 Nov  3 22:12 ../
+-rwxr-xr-x 1 *** 197121  295 Nov  1 22:34 00-env.sh*
+-rwxr-xr-x 1 *** 197121 1331 Nov  1 22:34 01-terminal.sh*
+-rwxr-xr-x 1 *** 197121 1012 Nov  1 22:34 02-permissions.sh*
+-rwxr-xr-x 1 *** 197121  564 Nov  1 22:34 03-docker-check.sh*
+-rwxr-xr-x 1 *** 197121 1233 Nov  1 22:34 04-container-ops.sh*
+-rwxr-xr-x 1 *** 197121 1931 Nov  1 22:34 05-web-build-run.sh*
+-rwxr-xr-x 1 *** 197121 2042 Nov  1 22:34 06-volume-bindmount.sh*
+-rwxr-xr-x 1 *** 197121  671 Nov  1 22:34 07-git-check.sh*
+-rwxr-xr-x 1 *** 197121  363 Nov  1 22:34 99-cleanup.sh*
+-rwxr-xr-x 1 *** 197121 1022 Nov  1 22:34 lib.sh*
 
 ### 2. 디렉토리 생성 + 이동
 
-$ mkdir -p "/c/Users/MKJ/codyssey-practice/dir-a" "/c/Users/MKJ/codyssey-practice/dir-b"
+$ mkdir -p "/c/Users/***/codyssey-practice/dir-a" "/c/Users/***/codyssey-practice/dir-b"
 
-$ cd "/c/Users/MKJ/codyssey-practice"
+$ cd "/c/Users/***/codyssey-practice"
 
 $ pwd
-/c/Users/MKJ/codyssey-practice
+/c/Users/***/codyssey-practice
 
 ### 3. 빈 파일 생성 / 내용이 있는 파일 생성 / 내용 확인
 
@@ -43,12 +43,12 @@ hello codyssey
 
 $ ls -la
 total 25
-drwxr-xr-x 1 MKJ 197121  0 Nov  3 22:26 ./
-drwxr-xr-x 1 MKJ 197121  0 Nov  3 22:26 ../
-drwxr-xr-x 1 MKJ 197121  0 Nov  3 22:26 dir-a/
-drwxr-xr-x 1 MKJ 197121  0 Nov  3 22:26 dir-b/
--rw-r--r-- 1 MKJ 197121  0 Nov  3 22:26 empty.txt
--rw-r--r-- 1 MKJ 197121 15 Nov  3 22:26 hello.txt
+drwxr-xr-x 1 *** 197121  0 Nov  3 22:26 ./
+drwxr-xr-x 1 *** 197121  0 Nov  3 22:26 ../
+drwxr-xr-x 1 *** 197121  0 Nov  3 22:26 dir-a/
+drwxr-xr-x 1 *** 197121  0 Nov  3 22:26 dir-b/
+-rw-r--r-- 1 *** 197121  0 Nov  3 22:26 empty.txt
+-rw-r--r-- 1 *** 197121 15 Nov  3 22:26 hello.txt
 
 ### 4. 복사 / 이동 / 이름 변경
 
@@ -72,11 +72,11 @@ renamed.txt
 
 ### 5. 절대 경로 vs 상대 경로 (같은 파일을 두 방식으로 읽기)
 
-$ cat "/c/Users/MKJ/codyssey-practice/dir-b/renamed.txt"
+$ cat "/c/Users/***/codyssey-practice/dir-b/renamed.txt"
 hello codyssey
 
 $ cd dir-b && pwd
-/c/Users/MKJ/codyssey-practice/dir-b
+/c/Users/***/codyssey-practice/dir-b
 
 $ cat ./renamed.txt
 hello codyssey
@@ -84,7 +84,7 @@ hello codyssey
 $ cat ../dir-a/hello-copy.txt
 hello codyssey
 
-$ cd "/c/Users/MKJ/codyssey-practice"
+$ cd "/c/Users/***/codyssey-practice"
 
 ### 6. 삭제
 
@@ -96,8 +96,8 @@ $ rm -r dir-b
 
 $ ls -la
 total 24
-drwxr-xr-x 1 MKJ 197121 0 Nov  3 22:26 ./
-drwxr-xr-x 1 MKJ 197121 0 Nov  3 22:26 ../
--rw-r--r-- 1 MKJ 197121 0 Nov  3 22:26 empty.txt
+drwxr-xr-x 1 *** 197121 0 Nov  3 22:26 ./
+drwxr-xr-x 1 *** 197121 0 Nov  3 22:26 ../
+-rw-r--r-- 1 *** 197121 0 Nov  3 22:26 empty.txt
 
 => 로그 저장 위치: logs/01-terminal.log
